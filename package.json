@@ -41,6 +41,7 @@
     "react-bootstrap": "^1.0.0-beta.16",
     "react-hook-form": "^3.29.4",
     "react-router-dom": "^5.1.2",
-    "react-toastify": "^5.4.1"
+    "react-toastify": "^5.4.1",
+    "tesseract.js": "^2.0.2"
   }
 }
