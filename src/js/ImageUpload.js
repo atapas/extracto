@@ -5,9 +5,13 @@ import Dropzone from 'react-dropzone-uploader';
 import Tesseract from 'tesseract.js';
 
 import Result from './Result';
+import Progress from './Progress';
 
 const ImageUpload = () => {
-    const [uploadStatus, setUploadStatus] = useState('');
+    const [uploadStatus, setUploadStatus] = useState({
+        'progress': 0,
+        'label': ''
+    });
     const [resultText, setResultText] = useState('');
     // called every time a file's `status` changes
     const handleChangeStatus = ({ meta, file }, status) => { 
@@ -15,7 +19,11 @@ const ImageUpload = () => {
         
         if (status === 'removed') {
             setResultText('');
-            setUploadStatus('');
+            setUploadStatus({
+                ...uploadStatus,
+                ['progress']: 0,
+                ['label']: ''
+            });
         }
 
         if (status === 'done') {
@@ -25,32 +33,32 @@ const ImageUpload = () => {
                 { 
                     logger: m => {
                         console.log(m);
-                        setUploadStatus(m.status);
+                        setUploadStatus({
+                            ...uploadStatus,
+                            ['progress']: m.progress,
+                            ['label']: m.status
+                        });
                     }
                 }
               ).then(({ data: { text } }) => {
                 console.log(text);
-                setUploadStatus('Done');
+                // setUploadStatus('Done');
                 setResultText(text);
               })
         }
     }
 
-    // receives array of files that are done uploading when submit button is clicked
-    const handleSubmit = (files, allFiles) => {
-        console.log(files.map(f => f.meta))
-        allFiles.forEach(f => f.remove())
-    }
     return (
         <div>
             <Dropzone
                 onChangeStatus={handleChangeStatus}
-                onSubmit={handleSubmit}
                 accept="image/*,audio/*,video/*"
             />
-            <span>{ uploadStatus }</span>
+            
+            <Progress progress={ uploadStatus.progress } label={ uploadStatus.label } />
             <Result text={ resultText } />
         </div>
     )
 };
+
 export default ImageUpload;
