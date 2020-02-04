@@ -2,12 +2,24 @@ import React, { useState } from 'react';
 
 import Dropzone from 'react-dropzone-uploader';
 
+import Tesseract from 'tesseract.js';
+
 const ImageUpload = () => {
     const [uploadStatus, setUploadStatus] = useState('');
     // called every time a file's `status` changes
     const handleChangeStatus = ({ meta, file }, status) => { 
         console.log(status, meta, file);
         setUploadStatus(status);
+
+        if (status === 'done') {
+            Tesseract.recognize(
+                file,
+                'eng',
+                { logger: m => console.log(m) }
+              ).then(({ data: { text } }) => {
+                console.log(text);
+              })
+        }
     }
 
     // receives array of files that are done uploading when submit button is clicked
