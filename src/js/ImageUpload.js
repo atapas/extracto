@@ -4,20 +4,34 @@ import Dropzone from 'react-dropzone-uploader';
 
 import Tesseract from 'tesseract.js';
 
+import Result from './Result';
+
 const ImageUpload = () => {
     const [uploadStatus, setUploadStatus] = useState('');
+    const [resultText, setResultText] = useState('');
     // called every time a file's `status` changes
     const handleChangeStatus = ({ meta, file }, status) => { 
         console.log(status, meta, file);
-        setUploadStatus(status);
+        
+        if (status === 'removed') {
+            setResultText('');
+            setUploadStatus('');
+        }
 
         if (status === 'done') {
             Tesseract.recognize(
                 file,
                 'eng',
-                { logger: m => console.log(m) }
+                { 
+                    logger: m => {
+                        console.log(m);
+                        setUploadStatus(m.status);
+                    }
+                }
               ).then(({ data: { text } }) => {
                 console.log(text);
+                setUploadStatus('Done');
+                setResultText(text);
               })
         }
     }
@@ -29,12 +43,13 @@ const ImageUpload = () => {
     }
     return (
         <div>
-            { uploadStatus }
             <Dropzone
                 onChangeStatus={handleChangeStatus}
                 onSubmit={handleSubmit}
                 accept="image/*,audio/*,video/*"
             />
+            <span>{ uploadStatus }</span>
+            <Result text={ resultText } />
         </div>
     )
 };
