@@ -42,7 +42,6 @@ const ImageUpload = () => {
                 }
               ).then(({ data: { text } }) => {
                 console.log(text);
-                // setUploadStatus('Done');
                 setResultText(text);
               })
         }

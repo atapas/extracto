@@ -1,5 +1,5 @@
 body {
-    //background: #0e101c;
+    background: #0e101c;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
       "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
       sans-serif;
@@ -16,6 +16,10 @@ body {
     text-align: center;
     padding-bottom: 10px;
     border-bottom: 1px solid rgb(79, 98, 148);
+  }
+
+  h2,h3 {
+    color: white
   }
   
   .form {
@@ -129,5 +133,18 @@ body {
 
   form .error {
       color: #FFF;
+  }
+
+  .result {
+    color: white;
+  }
+
+  .dzu-previewContainer img {
+    max-height: 340px;
+    max-width: 240px;
+  }
+
+  .dzu-dropzone {
+    overflow: hidden;
   }
   
